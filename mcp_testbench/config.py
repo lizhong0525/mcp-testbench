@@ -71,13 +71,16 @@ def validate_suite(data, source="<suite>"):
         raise ConfigError(f"{source}: 'defaults' must be a mapping")
     for index, case in enumerate(tests):
         _validate_case(index, case, source)
+    max_output = defaults.get("max_output_bytes")
+    if max_output is not None:
+        _positive_int(max_output, "defaults.max_output_bytes", source)
     return {
         "name": data.get("name") or "unnamed suite",
         "defaults": {
             "timeout_ms": _positive_int(
                 defaults.get("timeout_ms", DEFAULT_TIMEOUT_MS),
                 "defaults.timeout_ms", source),
-            "max_output_bytes": defaults.get("max_output_bytes"),
+            "max_output_bytes": max_output,
         },
         "tests": tests,
     }

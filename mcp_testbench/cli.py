@@ -132,7 +132,12 @@ def _cmd_run(args):
 
     print(render_text(report))
     if args.json_report:
-        write_json(report, args.json_report)
+        try:
+            write_json(report, args.json_report)
+        except OSError as exc:
+            print(f"error: cannot write JSON report to "
+                  f"{args.json_report!r}: {exc}", file=sys.stderr)
+            return 2
         print(f"\nJSON report written to {args.json_report}")
     return 0 if report["failed"] == 0 and report["errored"] == 0 else 1
 

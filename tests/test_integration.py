@@ -66,6 +66,17 @@ class CliIntegrationTest(unittest.TestCase):
         self.assertEqual(proc.returncode, 2)
         self.assertIn("empty", proc.stderr)
 
+    def test_unwritable_json_report_exit_2(self):
+        suite = os.path.join(PROJECT_ROOT, "examples", "tests.yaml")
+        missing_dir = os.path.join(tempfile.gettempdir(),
+                                   "mcp-testbench-no-such-dir-xyz")
+        report_path = os.path.join(missing_dir, "report.json")
+        proc = run_cli("run", "--server", SERVER_CMD, "--tests", suite,
+                       "--json-report", report_path)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("cannot write JSON report", proc.stderr)
+        self.assertNotIn("Traceback", proc.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

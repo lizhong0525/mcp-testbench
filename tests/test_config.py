@@ -90,6 +90,13 @@ class LoadSuiteTest(unittest.TestCase):
         with self.assertRaisesRegex(ConfigError, "positive integer"):
             load_suite(path)
 
+    def test_bad_default_max_output_bytes(self):
+        suite = {"defaults": {"max_output_bytes": "abc"},
+                 "tests": [{"name": "c", "tool": "t"}]}
+        path = self._write(json.dumps(suite), ".json")
+        with self.assertRaisesRegex(ConfigError, "positive integer"):
+            load_suite(path)
+
 
 if __name__ == "__main__":
     unittest.main()

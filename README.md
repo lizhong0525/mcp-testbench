@@ -101,7 +101,7 @@ Point `--server` at any MCP stdio server command, e.g. `"node my-server.js"` or 
 python -m pytest -q      # or: python -m unittest discover -v
 ```
 
-35 deterministic tests cover schema validation, suite parsing (including the JSON fallback), the runner against the real fake server, report rendering, and full CLI integration. No network access required.
+37 deterministic tests cover schema validation, suite parsing (including the JSON fallback), the runner against the real fake server, report rendering, and full CLI integration. No network access required.
 
 ## Known limitations
 
