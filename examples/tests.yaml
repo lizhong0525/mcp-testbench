@@ -1,0 +1,48 @@
+# Demo suite for MCP TestBench, runs against examples/fake_server.py.
+# Every case passes; see failing_tests.yaml for detected violations.
+name: fake server contract suite
+defaults:
+  timeout_ms: 5000
+tests:
+  - name: echo returns valid input
+    tool: echo
+    arguments: {text: "hello mcp"}
+    expect: success
+
+  - name: add sums two numbers
+    tool: add
+    arguments: {a: 2, b: 40}
+    expect: success
+
+  - name: echo rejects missing required field
+    tool: echo
+    arguments: {}
+    expect: error
+
+  - name: add rejects wrong argument type
+    tool: add
+    arguments: {a: "two", b: 40}
+    expect: error
+
+  - name: unknown tool is rejected
+    tool: nonexistent_tool
+    arguments: {}
+    expect: error
+
+  - name: slow answers within generous timeout
+    tool: slow
+    arguments: {delay_ms: 100}
+    timeout_ms: 3000
+    expect: success
+
+  - name: big output stays under cap
+    tool: big_output
+    arguments: {size: 500}
+    max_output_bytes: 1000
+    expect: success
+
+  - name: counter is stable across repeated calls
+    tool: counter
+    arguments: {}
+    repeat: 5
+    expect: success

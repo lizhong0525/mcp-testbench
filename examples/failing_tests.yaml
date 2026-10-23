@@ -1,0 +1,20 @@
+# Suite that intentionally triggers violations, to demonstrate that
+# MCP TestBench detects contract problems (exit code 1).
+name: fake server violation suite
+tests:
+  - name: missing field should error but we expect success
+    tool: echo
+    arguments: {}
+    expect: success
+
+  - name: server too slow for this timeout
+    tool: slow
+    arguments: {delay_ms: 800}
+    timeout_ms: 150
+    expect: success
+
+  - name: output exceeds the allowed cap
+    tool: big_output
+    arguments: {size: 5000}
+    max_output_bytes: 1000
+    expect: success
