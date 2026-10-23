@@ -81,7 +81,7 @@ Point `--server` at any MCP stdio server command, e.g. `"node my-server.js"` or 
 - test categories: valid inputs, invalid inputs, missing required fields, timeouts, oversized outputs, repeated calls
 - YAML suite files with JSON fallback when PyYAML is unavailable
 - human-readable console report plus `--json-report` machine-readable export
-- exit codes: 0 = pass, 1 = failures / schema issues, 2 = config or connection error
+- exit codes: 0 = pass, 1 = failures / schema issues, 2 = usage, config or connection error
 - fake reference server so everything runs offline
 
 ## Safety model
@@ -93,7 +93,7 @@ Point `--server` at any MCP stdio server command, e.g. `"node my-server.js"` or 
 
 - Transport: **stdio only** (newline-delimited JSON-RPC 2.0, one message per line). HTTP/SSE transports are not supported in v1.
 - Protocol: the client offers protocol version `2024-11-05` and accepts whatever version the server returns; only the `tools` capability is exercised.
-- On Windows, the `--server` command string is split on whitespace (quote paths containing spaces).
+- On Windows, the `--server` string is split like a command line; wrap paths containing spaces in double quotes (e.g. `"python \"C:\\my dir\\server.py\""`).
 
 ## Testing
 
@@ -101,7 +101,7 @@ Point `--server` at any MCP stdio server command, e.g. `"node my-server.js"` or 
 python -m pytest -q      # or: python -m unittest discover -v
 ```
 
-37 deterministic tests cover schema validation, suite parsing (including the JSON fallback), the runner against the real fake server, report rendering, and full CLI integration. No network access required.
+37 deterministic tests cover schema validation, suite parsing (including the JSON fallback), the runner against the real fake server, report rendering, and full CLI integration. No network access required. CI runs this same command on CPython 3.11 and 3.13 (Ubuntu); the suite and demo are also verified on Windows.
 
 ## Known limitations
 

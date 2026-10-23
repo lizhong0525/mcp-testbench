@@ -17,6 +17,8 @@ import shlex
 import subprocess
 import threading
 
+from . import __version__
+
 PROTOCOL_VERSION = "2024-11-05"
 
 
@@ -135,7 +137,7 @@ class StdioMcpClient:
         result = self._request("initialize", {
             "protocolVersion": PROTOCOL_VERSION,
             "capabilities": {},
-            "clientInfo": {"name": "mcp-testbench", "version": "0.1.0"},
+            "clientInfo": {"name": "mcp-testbench", "version": __version__},
         }, timeout)
         self.protocol_version = result.get("protocolVersion", PROTOCOL_VERSION)
         self.server_info = result.get("serverInfo", {})

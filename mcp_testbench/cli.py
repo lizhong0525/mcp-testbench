@@ -13,6 +13,7 @@ import argparse
 import json
 import sys
 
+from . import __version__
 from .client import McpError, StdioMcpClient
 from .config import ConfigError, load_suite
 from .report import render_text, write_json
@@ -26,7 +27,7 @@ def main(argv=None):
         description="Contract and reliability test harness for MCP servers "
                     "(stdio transport).")
     parser.add_argument("--version", action="version",
-                        version="%(prog)s 0.1.0")
+                        version=f"%(prog)s {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("list", "validate", "run"):
         p = sub.add_parser(name)
