@@ -4,11 +4,16 @@ A contract and reliability test harness for MCP (Model Context Protocol) servers
 
 ## Quickstart
 
+From the repository root (the example paths below are relative to it):
+
 ```bash
+pip install -r requirements.txt   # PyYAML; the only runtime dependency
 python -m mcp_testbench run --server "python examples/fake_server.py" --tests examples/tests.yaml
 ```
 
-No third-party runtime dependencies; the suite above runs fully offline against the included fake server.
+PyYAML is the only third-party runtime dependency (if it is missing, suite files must be JSON — YAML files will not load). The suite above runs fully offline against the included fake server; no API keys, browsers or network access are needed.
+
+The very first run prints a stderr warning that the suite references `nonexistent_tool`, which the fake server does not advertise. That is intentional: the demo suite includes a case proving the server rejects unknown tools.
 
 ## Demo walkthrough
 
